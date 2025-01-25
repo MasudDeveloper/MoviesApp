@@ -18,7 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     ImageView transparentImage, moviePoster;
-    TextView movieTitle;
+    TextView movieTitle, movieRuntime, movieRating, movieReleased, movieGenre, moviePlot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +34,19 @@ public class MovieDetailsActivity extends AppCompatActivity {
         transparentImage = findViewById(R.id.transparentPoster);
         moviePoster = findViewById(R.id.moviePoster);
         movieTitle = findViewById(R.id.movieTitle);
+        movieRuntime = findViewById(R.id.movieRuntime);
+        movieRating = findViewById(R.id.movieRating);
+        movieReleased = findViewById(R.id.movieReleased);
+        movieGenre = findViewById(R.id.movieGenre);
+        moviePlot = findViewById(R.id.moviePlot);
 
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
+        String released = intent.getStringExtra("released");
+        String runtime = intent.getStringExtra("runtime");
+        String genre = intent.getStringExtra("genre");
+        String plot = intent.getStringExtra("plot");
+        String imdbRating = intent.getStringExtra("imdbRating");
 
         byte[] imageBytes = intent.getByteArrayExtra("image");
         Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes,0,imageBytes.length);
@@ -45,6 +55,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
         moviePoster.setImageBitmap(bitmap);
 
         movieTitle.setText(title);
+        movieReleased.setText(released);
+        movieRuntime.setText(runtime);
+        movieRating.setText(imdbRating+" (IMDB)");
+        movieGenre.setText(genre);
+        moviePlot.setText(plot);
 
     }
 }

@@ -48,6 +48,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
 
         String title = filteredList.get(position).getTitle();
+        String released = filteredList.get(position).getReleased();
+        String runtime = filteredList.get(position).getRuntime();
+        String genre = filteredList.get(position).getGenre();
+        String plot = filteredList.get(position).getPlot();
+        String imdbRating = filteredList.get(position).getImdbRating();
 
         Glide.with(context)
                 .load(filteredList.get(position).getPoster())
@@ -61,6 +66,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
                 Intent intent = new Intent(context, MovieDetailsActivity.class);
                 intent.putExtra("title",title);
+                intent.putExtra("released",released);
+                intent.putExtra("runtime",runtime);
+                intent.putExtra("genre",genre);
+                intent.putExtra("plot",plot);
+                intent.putExtra("imdbRating",imdbRating);
                 holder.imageView.setDrawingCacheEnabled(true);
                 Bitmap bitmap = holder.imageView.getDrawingCache();
 

@@ -34,6 +34,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.filteredList = new ArrayList<>(moviesList);
     }
 
+
     @NonNull
     @Override
     public CustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -101,10 +102,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             for (Movies movies : moviesList){
                 if (movies.getTitle().toLowerCase().contains(query.toLowerCase())){
                     filteredList.add(movies);
+                } else if (movies.getGenre().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(movies);
                 }
             }
             notifyDataSetChanged();
         }
+
 
         if (filteredList.isEmpty()){
             lottieAnimationView.setVisibility(View.VISIBLE);

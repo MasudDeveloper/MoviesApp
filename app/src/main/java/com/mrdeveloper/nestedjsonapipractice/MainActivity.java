@@ -1,10 +1,12 @@
 package com.mrdeveloper.nestedjsonapipractice;
 
+import android.graphics.Movie;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -20,9 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.mrdeveloper.nestedjsonapipractice.Model.MainModel;
 import com.mrdeveloper.nestedjsonapipractice.Model.Movies;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     LottieAnimationView lottieAnimationView;
     ShimmerFrameLayout shimmerFrameLayout;
+    ChipGroup chipGroup;
 
     List<Movies> moviesList;
     CustomAdapter adapter;
@@ -60,12 +66,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         lottieAnimationView = findViewById(R.id.animationView);
         shimmerFrameLayout = findViewById(R.id.shimmerFrameLayout);
+        chipGroup = findViewById(R.id.chipGroup);
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl("https://mrdeveloper.xyz/").addConverterFactory(GsonConverterFactory.create()).build();
 
         progressBar.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
 
+        addChipToGroup();
 
         apiInterface = retrofit.create(ApiInterface.class);
         apiInterface.getResponse().enqueue(new Callback<MainModel>() {
@@ -99,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -116,5 +125,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    } // ===================== On Create End =================
+
+    private void addChipToGroup() {
+        String[] genres = {"Action","Drama","Crime","Horror","Biography","History","Romance","Sci-Fi","Thriller"};
+        for (String genre : genres){
+            Chip chip = new Chip(MainActivity.this);
+            chip.setText(genre);
+            chip.setCheckable(true);
+            chip.setCheckedIconVisible(true);
+
+            chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                    if (isChecked) {
+                        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+                            Chip chip = (Chip) chipGroup.getChildAt(i);
+                            if (!chip.getText().toString().equals(genre)) {
+                                chip.setChecked(false);  // অন্য চিপগুলো unselect করুন
+                            }
+                        }
+                        adapter.setFilteredList(genre);
+                    } else {
+                        adapter.setFilteredList("");
+                    }
+
+                }
+            });
+
+            chipGroup.addView(chip);
+
+        }
+
     }
+
+
+
 }

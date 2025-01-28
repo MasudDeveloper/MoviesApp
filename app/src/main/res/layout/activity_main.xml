@@ -32,6 +32,25 @@
         android:layout_margin="10dp"
         />
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        >
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:singleLine="true"
+            app:chipSpacing="8dp"
+            android:paddingEnd="20dp"
+            app:layout_scrollFlags="scroll"
+            />
+    </HorizontalScrollView>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
@@ -70,6 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
 
 </LinearLayout>
